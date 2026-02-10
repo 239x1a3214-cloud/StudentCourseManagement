@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-
-@CrossOrigin(origins = "http://127.0.0.1:5500/")
 @RestController
 @RequestMapping("/api/courses")
 public class CourseController {
@@ -36,27 +33,33 @@ public class CourseController {
     public void deleteCourse(@PathVariable Long id){
         courseService.deleteCourse(id);
     }
+
     @GetMapping("/count")
     public Long getCourseCount(){
         return courseService.getCourseCount();
     }
 
     @GetMapping("/courses")
-    public List<Course> getCoursesByCredit(@RequestParam String title){
-        return courseService.getCourseByTitle(title);
-    } 
-
-    @GetMapping("/filter")
-    public List<Course> findByCredit(@RequestParam Integer credit) {
-        return courseService.getCourseByCredit(credit);
+    public List<Course> getCourseByTitle(@RequestParam(required = false) String title){
+        if (title != null && !title.trim().isEmpty()) {
+            return courseService.getCourseByTitle(title);
+        }
+        return courseService.getAllCourse();
     }
- @GetMapping("/courses/search")
-  public List<Course> getCourseByTitleAndCredit(
-        @RequestParam String title,
-        @RequestParam Integer credit) {
+    @GetMapping("/filter")
+    public List<Course> findByCredit(@RequestParam Integer credit){
+        return courseService.getCourseByCredit(credit);
 
-    return courseService.getCourseByTitleAndCredit(title, credit);
+    }
+
+    @GetMapping("/search")
+    public List<Course> getCourseByTitleAndCredit(
+            @RequestParam String title,
+            @RequestParam Integer credit){
+        return courseService.getCourseByTitleAndCredit(title,credit);
+    }
+
+
+
+
 }
-
-}
-

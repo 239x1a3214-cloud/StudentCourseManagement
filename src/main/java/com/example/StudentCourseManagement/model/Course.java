@@ -17,10 +17,11 @@ import java.util.Set;
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
+    private Long id;//(setId(),getId())
+    private String title;//(setTitle(),getTitle())
     private Integer credit;
     @ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Student> students;
 }
+

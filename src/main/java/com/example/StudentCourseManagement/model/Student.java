@@ -1,12 +1,11 @@
-
 package com.example.StudentCourseManagement.model;
-
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.util.Lazy;
 
 import java.util.Set;
 
@@ -30,6 +29,6 @@ public class Student {
                     inverseJoinColumns = @JoinColumn(name = "course_id")
             )
     private Set<Course> courses;
-
-
 }
+
+

@@ -19,6 +19,13 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
+    public Course getCourseById(Long courseId){
+        Course courseById = courseRepository.findById(courseId)
+                .orElseThrow(()->
+                        new RuntimeException("Course with id "+ courseId + " not present"));
+        return courseById;
+    }
+
     public Course updateCourse(Long id,Course course){
         Course existingCourse = courseRepository.findById(id)
                 .orElseThrow(() ->
@@ -28,21 +35,19 @@ public class CourseService {
         return courseRepository.save(existingCourse);
     }
 
-    public void deleteCourse(Long id) {
-    if (!courseRepository.existsById(id)) {
-        throw new RuntimeException("Course with id " + id + " not present");
+    public void deleteCourse(Long id){
+        Course existingCourse = courseRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Course with + "+id + "not present"));
+        courseRepository.deleteById(id);
     }
-    courseRepository.deleteById(id);
-}
-
     public Long getCourseCount(){
         List<Course> courses = courseRepository.findAll();
         return (long) courses.size();
     }
 
     public List<Course> getCourseByTitle(String title){
-        return courseRepository.findByTitleContainingIgnoreCase(title);
-
+        return courseRepository.findByTitleContainingIgnoringCase(title);
     }
 
     public List<Course> getCourseByCredit(Integer credit){
@@ -50,7 +55,6 @@ public class CourseService {
     }
 
     public List<Course> getCourseByTitleAndCredit(String title,Integer credit){
-      return courseRepository.findByTitleContainingIgnoreCaseAndCredit(title, credit);
-
+        return courseRepository.findByTitleContainingIgnoringCaseAndCredit(title,credit);
     }
 }
